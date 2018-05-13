@@ -17,7 +17,7 @@ maltelau@protonmail.com
 May 2018
 """
 
-from typing import NamedTuple, List, Dict, Tuple
+from typing import List, Dict, Tuple
 from collections import namedtuple
 
 import curses
@@ -84,12 +84,12 @@ def card_color(card):
 ##########################################
 # Typing
 
+Stack = List[Card]
 Deck = {
-    'cards': List[Card],
-    'discards': List[Card]
+    'cards': Stack,
+    'discards': Stack
     }
 
-Stack = List[Card]
 Game = {
     'deck': Deck,
     'board': List[Stack]
@@ -340,6 +340,8 @@ Control with [arrow keys], [enter] / [back]""")
                 round_state = deal_round(g, round_state)
                 if round_state > 0:
                     pos = [round_state-1, len(g['board'][round_state-1])-1]
+                else:
+                    pos = [0,0]
                 max_height += 1
             elif g['deck']['discards']:
                 pass
@@ -422,8 +424,7 @@ Control with [arrow keys], [enter] / [back]""")
         if help_state == 1:
             win.addstr(0,0, """  -- RULES -- 
 The goal is to empty the board by taking off three cards at a time from the same column.
-You may only take cards from the ends of one column, and they must add up to either 10, 20 or 30 in value. For example, you could try the bottom three 
-cards, or the bottom card and the two top cards.
+You may only take cards from the ends of one column, and they must add up to either 10, 20 or 30 in value. For example, you could try the bottom three cards, or the bottom card and the two top cards.
 Aces are worth 1, and J, Q, K are worth 10.
 
 """)
