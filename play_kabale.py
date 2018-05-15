@@ -40,7 +40,8 @@ formatter = logging.Formatter(
         '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 
@@ -55,10 +56,10 @@ Press [enter] to start a new game.
 (Optional) Enter a random seed.
 """
 HELP_SHORT =  """(h)elp. (q)uit. deal a (r)ound. reu(s)e discards. (n)ew game. (z)seed.
-Control with [arrow keys], [enter] / [back]"""
+Control with 🡠 🡢 🡡 🡣, [enter] / [backspace]"""
 HELP_1 = """  -- RULES -- 
 The goal is to empty the board by taking off three cards at a time from the same column.
-You may only take cards from the ends of one column, and they must add up to either 10, 20 or 30 in value. For example, you could try the bottom three cards, or the bottom card and the two top cards.
+You may only take cards from the ends of one column, and they must add up to either 10, 20 or 30 in value. For example, you could try the bottom three cards, or the bottom card and the two top cards etc.
 Aces are worth 1, and J, Q, K are worth 10.
 
 """
@@ -67,9 +68,9 @@ HELP_2 = """
   -- KEYBOARD CONTROLS --
 [h] \t\tToggle help / keyboard shortcuts
 [q] \t\tQuit (without saving)
-[arrow keys] \tMove the selector
+🡠 🡢 🡡 🡣 \tMove the selector
 [enter] \tSelect a card
-[delete] \tUn-select the last card
+[backspace] \tUn-select the last card
 [s] \t\tMix the discard into the draw pile
 [r] \t\tDeal a round of cards
 [n] \t\tNew game
@@ -79,7 +80,7 @@ HELP_2 = """
 Minimum recommended window size: 10 x 40.
 You can re-play a game by giving the same seed.
 
-Programmed in python with ncurses by Malte Lau Petersen.
+Programmed in python with ncurses by Malte Lau Petersen after watching Johanne play this solitaire time and time again.
 
 
 
@@ -340,7 +341,7 @@ def main(stdscr) -> Game:
     stdscr.border('|', '|', '-', '-', '+', '+', '+', '+')
     stdscr.refresh()
 
-    win = curses.newpad(100, curses.COLS-5)
+    win = curses.newpad(HELP_LINES + 40, curses.COLS-5)
 
     # ask user for a seed
     seed = new_game_get_seed(win)
@@ -522,6 +523,7 @@ def main(stdscr) -> Game:
                       'diamonds':   curses.color_pair(3)}
             [win.addstr(t + " ",c) for t,c in COLORS.items()]
             win.addstr(HELP_2)
+            win.addstr(help_pos + win_height-1, win_width-4, "🡡 🡣")
             
         else:
             # main game screen
